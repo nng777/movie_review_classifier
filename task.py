@@ -1,12 +1,8 @@
 """
-
-Task: Build a Movie Review Classifier
-Objective
 Build a simple application that can classify movie reviews as either "Positive" or "Negative" using a different approach than the one shown in class.
 
 What You Need to Do
 1. Data Collection
-
 Create a dataset of 20 movie reviews:
 1.10 positive reviews (you can find these from movie websites, or create realistic examples)
 2.10 negative reviews
@@ -56,22 +52,5 @@ Submit the following files:
 1.movie_classifier.py - Your modified sentiment analyzer
 2.test_results.txt - Your test results table and analysis paragraph
 3.movie_reviews.txt - Your 20 movie reviews dataset (if saved separately)
-
-5. Additional Features
-Feature 1:
-1.Add emoji output (😊 for positive, 😞 for negative)
-2.Count and display the most common words in positive vs negative reviews
-
-Feature 2:
-1.Implement a neutral category (for reviews that are neither clearly positive nor negative)
-2.Add 5 neutral movie reviews to your dataset
-
-Feature 3:
-1.Create a simple command-line menu system that lets users:
-2.Train the model
-3.Test a single review
-4.Test multiple reviews
-5.View model statistics
-6.Exit
 
 """
