@@ -62,6 +62,18 @@ class MovieReviewClassifier:
             "confidence": prob,
         }
 
+def format_results(classifier: "MovieReviewClassifier", reviews: list[str]) -> str:
+    """Return formatted prediction results for the given reviews."""
+    lines = []
+    for text in reviews:
+        result = classifier.predict(text)
+        lines.append(
+            f"Review: {result['text']}\n"
+            f"Prediction: {result['sentiment']} (Confidence: {result['confidence']:.2f})\n"
+            f"Word Count: original={result['original_wc']} cleaned={result['cleaned_wc']}\n"
+        )
+    return "\n".join(lines)
+
 def save_results(text: str, filename: str = "test_result.txt"):
     """Save the given text to a file."""
     with open(filename, "w", encoding="utf-8") as f:
@@ -105,13 +117,9 @@ def main():
     ]
 
     print("\nTest Results:")
-    for text in test_reviews:
-        result = classifier.predict(text)
-        print(
-            f"Review: {result['text']}\n"
-            f"Prediction: {result['sentiment']} (Confidence: {result['confidence']:.2f})\n"
-            f"Word Count: original={result['original_wc']} cleaned={result['cleaned_wc']}\n"
-        )
+    results_text = format_results(classifier, test_reviews)
+    print(results_text)
+    save_results(results_text)
 
 
 if __name__ == "__main__":
