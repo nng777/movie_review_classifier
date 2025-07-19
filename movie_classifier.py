@@ -39,7 +39,8 @@ class MovieReviewClassifier:
     def prepare_data(self, reviews: list[tuple[str, str]]) -> pd.DataFrame:
         df = pd.DataFrame(reviews, columns=["text", "label"])
         df["cleaned_text"], df["original_wc"], df["cleaned_wc"] = zip(*df["text"].apply(self.clean_text))
-        df["label"] = df["label"].map({"positive": 1, "negative": 0})
+        label_map = {"negative": 0, "neutral": 1, "positive": 2}
+        df["label"] = df["label"].map(label_map)
         return df
 
     def train(self, df: pd.DataFrame) -> float:
@@ -52,7 +53,12 @@ class MovieReviewClassifier:
     def predict(self, text: str) -> dict:
         cleaned_text, orig_wc, clean_wc = self.clean_text(text)
         prediction = self.model.predict([cleaned_text])[0]
-        sentiment = "Positive" if prediction == 1 else "Negative"
+        if prediction == 2:
+            sentiment = "Positive"
+        elif prediction == 1:
+            sentiment = "Neutral"
+        else:
+            sentiment = "Negative"
         prob = self.model.predict_proba([cleaned_text])[0].max()
         return {
             "text": text,
@@ -68,7 +74,12 @@ def format_results(classifier: "MovieReviewClassifier", reviews: list[str]) -> s
     lines = []
     for text in reviews:
         result = classifier.predict(text)
-        emoji = "😊" if result["sentiment"] == "Positive" else "😞"
+        if result["sentiment"] == "Positive":
+            emoji = "😊"
+        elif result["sentiment"] == "Negative":
+            emoji = "😞"
+        else:
+            emoji = "😐"
         lines.append(
             f"Review: {result['text']}\n"
             f"Prediction: {result['sentiment']} {emoji} (Confidence: {result['confidence']:.2f})\n"
@@ -76,26 +87,32 @@ def format_results(classifier: "MovieReviewClassifier", reviews: list[str]) -> s
         )
     return "\n".join(lines)
 
+
 def save_results(text: str, filename: str = "test_result.txt"):
     """Save the given text to a file."""
     with open(filename, "w", encoding="utf-8") as f:
         f.write(text)
 
 def display_common_words(classifier: "MovieReviewClassifier", reviews: list[tuple[str, str]], top_n: int = 3) -> None:
-    """Print the most common words in positive and negative reviews."""
+    """Print the most common words in positive, neutral, and negative reviews."""
     pos_words: list[str] = []
     neg_words: list[str] = []
+    neu_words: list[str] = []
     for text, label in reviews:
         cleaned, _, _ = classifier.clean_text(text)
         if label == "positive":
             pos_words.extend(cleaned.split())
+        elif label == "neutral":
+            neu_words.extend(cleaned.split())
         else:
             neg_words.extend(cleaned.split())
 
     pos_common = ", ".join(w for w, _ in Counter(pos_words).most_common(top_n))
     neg_common = ", ".join(w for w, _ in Counter(neg_words).most_common(top_n))
+    neu_common = ", ".join(w for w, _ in Counter(neu_words).most_common(top_n))
 
     print(f"\nMost common words in positive reviews: {pos_common}")
+    print(f"Most common words in neutral reviews: {neu_common}")
     print(f"Most common words in negative reviews: {neg_common}")
 
 
@@ -109,6 +126,11 @@ def main():
         ("Brilliant cinematography and outstanding music score.", "positive"),
         ("A masterpiece that showcases the best of filmmaking.", "positive"),
         ("Incredible storytelling with characters you truly care about.", "positive"),
+        ("The movie had some good moments but overall it was just average.", "neutral"),
+        ("Parts of the film were interesting though others felt dull.", "neutral"),
+        ("A mix of compelling scenes and lackluster storytelling.", "neutral"),
+        ("Some performances stood out, but the plot didn't leave a strong impression.", "neutral"),
+        ("Neither great nor terrible, it was simply okay.", "neutral"),
         ("An uplifting film that exceeded all of my expectations.", "positive"),
         ("Heartwarming and entertaining from start to finish.", "positive"),
         ("The plot was confusing and the pacing was painfully slow.", "negative"),
@@ -136,6 +158,9 @@ def main():
         "This film exceeded all my expectations, highly recommended!",
         "Boring dialogue and predictable storyline throughout the entire movie.",
         "A masterpiece of storytelling with incredible visual effects.",
+        "The movie was okay overall, neither exciting nor disappointing.",
+        "Some scenes were interesting, but the film as a whole felt ordinary.",
+        "It was a decent watch, though not particularly memorable."
     ]
 
     print("\nTest Results:")
