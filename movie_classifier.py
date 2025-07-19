@@ -7,6 +7,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
+from collections import Counter
 
 # Ensure NLTK resources are available
 for resource in ["punkt", "stopwords"]:
@@ -67,9 +68,10 @@ def format_results(classifier: "MovieReviewClassifier", reviews: list[str]) -> s
     lines = []
     for text in reviews:
         result = classifier.predict(text)
+        emoji = "😊" if result["sentiment"] == "Positive" else "😞"
         lines.append(
             f"Review: {result['text']}\n"
-            f"Prediction: {result['sentiment']} (Confidence: {result['confidence']:.2f})\n"
+            f"Prediction: {result['sentiment']} {emoji} (Confidence: {result['confidence']:.2f})\n"
             f"Word Count: original={result['original_wc']} cleaned={result['cleaned_wc']}\n"
         )
     return "\n".join(lines)
@@ -78,6 +80,24 @@ def save_results(text: str, filename: str = "test_result.txt"):
     """Save the given text to a file."""
     with open(filename, "w", encoding="utf-8") as f:
         f.write(text)
+
+def display_common_words(classifier: "MovieReviewClassifier", reviews: list[tuple[str, str]], top_n: int = 3) -> None:
+    """Print the most common words in positive and negative reviews."""
+    pos_words: list[str] = []
+    neg_words: list[str] = []
+    for text, label in reviews:
+        cleaned, _, _ = classifier.clean_text(text)
+        if label == "positive":
+            pos_words.extend(cleaned.split())
+        else:
+            neg_words.extend(cleaned.split())
+
+    pos_common = ", ".join(w for w, _ in Counter(pos_words).most_common(top_n))
+    neg_common = ", ".join(w for w, _ in Counter(neg_words).most_common(top_n))
+
+    print(f"\nMost common words in positive reviews: {pos_common}")
+    print(f"Most common words in negative reviews: {neg_common}")
+
 
 def main():
     reviews = [
@@ -107,6 +127,8 @@ def main():
     df = classifier.prepare_data(reviews)
     accuracy = classifier.train(df)
     print(f"Model trained with accuracy: {accuracy:.2f}")
+
+    display_common_words(classifier, reviews)
 
     test_reviews = [
         "The plot was confusing and the ending made no sense at all.",
