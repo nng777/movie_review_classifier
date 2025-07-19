@@ -126,13 +126,18 @@ def main():
         ("Brilliant cinematography and outstanding music score.", "positive"),
         ("A masterpiece that showcases the best of filmmaking.", "positive"),
         ("Incredible storytelling with characters you truly care about.", "positive"),
+        ("An uplifting film that exceeded all of my expectations.", "positive"),
+        ("Heartwarming and entertaining from start to finish.", "positive"),
         ("The movie had some good moments but overall it was just average.", "neutral"),
         ("Parts of the film were interesting though others felt dull.", "neutral"),
         ("A mix of compelling scenes and lackluster storytelling.", "neutral"),
         ("Some performances stood out, but the plot didn't leave a strong impression.", "neutral"),
         ("Neither great nor terrible, it was simply okay.", "neutral"),
-        ("An uplifting film that exceeded all of my expectations.", "positive"),
-        ("Heartwarming and entertaining from start to finish.", "positive"),
+        ("A fair attempt with some memorable scenes but ultimately unremarkable.", "neutral"),
+        ("Nothing groundbreaking yet not a waste of time either.", "neutral"),
+        ("Average pacing and a storyline that neither thrilled nor bored.", "neutral"),
+        ("Some parts were enjoyable though others dragged on.", "neutral"),
+        ("It was okay overall but lacked any standout qualities.", "neutral"),
         ("The plot was confusing and the pacing was painfully slow.", "negative"),
         ("Terrible acting and a script that made no sense at all.", "negative"),
         ("A disappointing film with a predictable storyline.", "negative"),
@@ -158,9 +163,9 @@ def main():
         "This film exceeded all my expectations, highly recommended!",
         "Boring dialogue and predictable storyline throughout the entire movie.",
         "A masterpiece of storytelling with incredible visual effects.",
-        "The movie was okay overall, neither exciting nor disappointing.",
+        "The movie was acceptable, neither exciting nor disappointing.",
         "Some scenes were interesting, but the film as a whole felt ordinary.",
-        "It was a decent watch, though not particularly memorable."
+        "It was a decent watch, though not particularly memorable moments."
     ]
 
     print("\nTest Results:")
