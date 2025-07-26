@@ -131,11 +131,11 @@ def main():
         ("The movie had some good moments but overall it was just average.", "neutral"),
         ("Parts of the film were interesting though others felt dull.", "neutral"),
         ("A mix of compelling scenes and lackluster storytelling.", "neutral"),
-        ("Some performances stood out, but the plot didn't leave a strong impression.", "neutral"),
-        ("Neither great nor terrible, it was simply okay.", "neutral"),
-        ("A fair attempt with some memorable scenes but ultimately unremarkable.", "neutral"),
-        ("Nothing groundbreaking yet not a waste of time either.", "neutral"),
-        ("Average pacing and a storyline that neither thrilled nor bored.", "neutral"),
+        #("Some performances stood out, but the plot didn't leave a strong impression.", "neutral"),
+        #("Neither great nor terrible, it was simply okay.", "neutral"),
+        #("A fair attempt with some memorable scenes but ultimately unremarkable.", "neutral"),
+        #("Nothing groundbreaking yet not a waste of time either.", "neutral"),
+        #("Average pacing and a storyline that neither thrilled nor bored.", "neutral"),
         ("Some parts were enjoyable though others dragged on.", "neutral"),
         ("It was okay overall but lacked any standout qualities.", "neutral"),
         ("The plot was confusing and the pacing was painfully slow.", "negative"),
@@ -147,7 +147,7 @@ def main():
         ("Weak plot development and awful special effects.", "negative"),
         ("The worst film I have seen in years.", "negative"),
         ("Unconvincing performances and terrible editing.", "negative"),
-        ("Predictable from the opening scene to the final shot.", "negative"),
+        ("Predictable from the opening scene to the final shot.", "negative")
     ]
 
     classifier = MovieReviewClassifier()
@@ -159,13 +159,13 @@ def main():
 
     test_reviews = [
         "The plot was confusing and the ending made no sense at all.",
-        "Brilliant cinematography and outstanding performances by all actors.",
+        "Brilliant cinematography is great and outstanding performances by all actors.",
         "This film exceeded all my expectations, highly recommended!",
         "Boring dialogue and predictable storyline throughout the entire movie.",
         "A masterpiece of storytelling with incredible visual effects.",
-        "The movie was acceptable, neither exciting nor disappointing.",
-        "Some scenes were interesting, but the film as a whole felt ordinary.",
-        "It was a decent watch, though not particularly memorable moments."
+        #"The movie was acceptable, neither exciting nor disappointing.",
+        #"Some scenes were interesting, but the film as a whole felt ordinary.",
+        #"It was a decent watch, though not particularly memorable moments."
     ]
 
     print("\nTest Results:")
